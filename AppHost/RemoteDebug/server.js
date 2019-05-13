@@ -12,6 +12,7 @@ window.appHost = {
         );
     }
 };
+window.listFunction = []
 
 function _renderLogs(logs) {
     if (!logs) return;
@@ -37,7 +38,8 @@ function _renderLogs(logs) {
                         for (var k = 0; k < response.length; k++) {
                             apis.push({
                                 type: "api",
-                                value: "  -  " + response[k]
+                                value: "- " + response[k],
+                                runValue: response[k]
                             });
                         }
                     }
@@ -54,6 +56,9 @@ function _renderLogs(logs) {
                 type: "apropos_item",
                 doc: doc
             });
+            if(listFunction.length){
+                listFunction.shift()(doc.code)
+            }
         } else if (logVal.action == 'eval') {
             var r = '';
             if (logVal.param){
@@ -241,7 +246,9 @@ function _run_command(com) {
             var newCom = _parseCommand(com);
             if (newCom && newCom.length > 0) {
                 var r = window.eval(newCom);
+                
                 if (r) {
+                    console.log(r.toString())
                     addStore({
                         type: "evalResult",
                         message: r.toString()
@@ -314,6 +321,14 @@ Vue.component("command-output", {
             var ele = e.target;
             var com = ele.dataset.command;
             _run_command(com);
+        },
+        handleClick(api){
+            _run_command(':apropos ' + api)
+            listFunction.push(code => {
+                _run_command(code)
+
+            })
+
         }
     },
     template: "#command-output-template"
@@ -330,7 +345,7 @@ document.addEventListener(
             },
             mounted: function () {
                 window.setInterval(loop, 2000);
-            }
+            },
         });
     },
     false

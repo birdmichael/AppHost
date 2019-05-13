@@ -17,13 +17,13 @@ Vue.component("tool-panel", {
                     action: "help",
                     clsName: "w-tool-item w-tool-help",
                     title: "look for help",
-                    text: "Help"
+                    text: "帮助"
                 },
                 {
                     action: "list",
                     clsName: "w-tool-item w-tool-docs",
                     title: "documents for api",
-                    text: "Docs"
+                    text: "接口文档"
                 },
                 {
                     action: "timing",

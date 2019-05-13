@@ -260,6 +260,11 @@ pre {
     display: block;
 }
 
+.w-api_list-api-run {
+    color: #4468b9;
+    display: inline;
+}
+
 .w-api_list-other {
     padding: 0 5px;
 }
