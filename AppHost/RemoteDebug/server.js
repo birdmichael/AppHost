@@ -12,6 +12,7 @@ window.appHost = {
         );
     }
 };
+window.listFunction = []
 
 function _renderLogs(logs) {
     if (!logs) return;
@@ -37,7 +38,9 @@ function _renderLogs(logs) {
                         for (var k = 0; k < response.length; k++) {
                             apis.push({
                                 type: "api",
-                                value: "  -  " + response[k]
+                                value: "  -  " + response[k],
+                                runValue: response[k]
+
                             });
                         }
                     }
@@ -52,8 +55,11 @@ function _renderLogs(logs) {
             var doc = logVal.param;
             addStore({
                 type: "apropos_item",
-                doc: doc
+                doc: doc,
             });
+            if (listFunction.length()) {
+                listFunction.shift()(doc.code)
+            }
         } else if (logVal.action == 'eval') {
             var r = '';
             if (logVal.param){
@@ -314,7 +320,16 @@ Vue.component("command-output", {
             var ele = e.target;
             var com = ele.dataset.command;
             _run_command(com);
+        },
+        handleClick(api){
+            _run_command(':apropos ' + api)
+            listFunction.push(code => {
+                _run_command(code)
+
+            })
+
         }
+
     },
     template: "#command-output-template"
 });

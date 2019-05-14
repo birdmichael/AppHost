@@ -71,7 +71,9 @@
                     <p class="f-warning-text">下面列出可以调用的接口的签名。</p>
                     <template v-for="api in item.apis">
                         <p v-if="api.type === 'group'" class="w-api_list-group">{{api.value}}</p>
-                        <span v-else class="w-api_list-api">{{api.value}}</span>
+                        <span v-else class="w-api_list-api" @click=handleClick(api.runValue)>{{api.value}}
+                            <p class="w-api_list-api-run" @click=handleClick(api.runValue)>运行 </p>
+                        </span>
                     </template>
                     <p class="w-api_list-other">注意：<br/>1.实际调用时不需要“_”,“$”符号，接口名 "log" 和 "log_" 表示不同的接口，带下划线_的"log_"表示有一个入参，"log"没有入参<br/>2. 可以输入 `:apropos method`,如 `:apropos log_` 查看详细接口说明、示例、描述；<br/>3.内置的命令如`apropos` 调用时需要前导":"冒号，以和业务命令区分</p>
                 </div>
